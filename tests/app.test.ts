@@ -1,9 +1,8 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import type Database from 'better-sqlite3';
 import { createApp } from '../src/app.js';
-import { createDatabase } from '../src/db.js';
+import { createDatabase, type LocalBookingDatabase } from '../src/db.js';
 
-let database: Database.Database;
+let database: LocalBookingDatabase;
 
 afterEach(() => database?.close());
 
@@ -36,7 +35,7 @@ describe('equipment and bookings API', () => {
     expect((await app.request(`/api/bookings/${booking.id}`)).status).toBe(200);
     const updated = await app.request(`/api/bookings/${booking.id}`, { method: 'PATCH', body: JSON.stringify({ purpose: 'Updated presentation' }), headers: { 'Content-Type': 'application/json' } });
     expect(updated.status).toBe(200);
-    expect((await updated.json()).purpose).toBe('Updated presentation');
+    expect((await updated.json() as { purpose: string }).purpose).toBe('Updated presentation');
 
     expect((await app.request(`/api/bookings/${booking.id}`, { method: 'DELETE' })).status).toBe(204);
     expect((await app.request(`/api/bookings/${booking.id}`)).status).toBe(404);
@@ -46,7 +45,7 @@ describe('equipment and bookings API', () => {
     const app = setup();
     const invalid = await app.request('/api/bookings', { method: 'POST', body: JSON.stringify({ ...validBooking, endAt: validBooking.startAt }), headers: { 'Content-Type': 'application/json' } });
     expect(invalid.status).toBe(400);
-    expect((await invalid.json()).error).toContain('before');
+    expect((await invalid.json() as { error: string }).error).toContain('before');
 
     const missingEquipment = await app.request('/api/bookings', { method: 'POST', body: JSON.stringify({ ...validBooking, equipmentId: 'eq-missing' }), headers: { 'Content-Type': 'application/json' } });
     expect(missingEquipment.status).toBe(404);

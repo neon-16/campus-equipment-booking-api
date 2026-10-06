@@ -1,6 +1,8 @@
 # API Contract and Test Evidence
 
-Base URL: `http://localhost:8787/api`
+Local base URL: `http://localhost:8787/api`
+
+Deployed Cloudflare base URL: `https://campus-equipment-booking-api.neon-dev.workers.dev/api`
 
 ## Equipment
 
@@ -141,3 +143,26 @@ invalid:400
 missing:404
 delete:204
 ```
+
+## Deployed API Verification
+
+Deployed URL: `https://campus-equipment-booking-api.neon-dev.workers.dev/api`
+
+Worker version: `eb4d84bd-5930-4715-a56d-ffa982cc8634`
+
+The deployed Cloudflare Workers + D1 API passed these checks:
+
+| Test case | Result |
+| --- | --- |
+| `GET /api/equipment` | `200` |
+| `GET /api/bookings` | `200` |
+| `POST /api/bookings` | `201` |
+| `GET /api/bookings/:id` | `200` |
+| `PATCH /api/bookings/:id` | `200` |
+| Invalid time range | `400` |
+| Overlapping POST | `409` |
+| Overlapping PATCH | `409` |
+| Missing booking | `404` |
+| `DELETE /api/bookings/:id` | `204` |
+
+Temporary verification bookings were deleted successfully after testing.
