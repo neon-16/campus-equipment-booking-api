@@ -2,7 +2,7 @@
 
 ## Checkpoint
 
-The first working API version was reached after the database layer, routes, and focused tests passed. The workspace is not a Git repository, so a commit could not be created here. The checkpoint was saved as working files and verified with `npm test` and `npm run build`.
+The first working API version was created before the Quality Gate improvements and review. It is represented by commit `3373ec6369a30c13c0205887bbacaf7cb85e4097` with message `checkpoint: first working API version`. No additional code changes were made at that checkpoint.
 
 ## Findings and fixes
 

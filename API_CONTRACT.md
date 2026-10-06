@@ -132,7 +132,9 @@ Against `http://localhost:8787/api`, the live curl run returned:
 
 ```text
 equipment:200
+bookings:200
 create:201
+get-booking:200
 conflict:409
 update:200
 invalid:400
